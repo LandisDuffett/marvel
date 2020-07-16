@@ -1,7 +1,7 @@
 import Hero from "./Models/Hero.js";
 
 let _state = {
-  /** @type {string[]} */
+  /** @type {Hero[]} */
   wildHeroes: [],
   /** @type {Hero} */
   activeHeroes: null,

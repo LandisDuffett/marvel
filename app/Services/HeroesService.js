@@ -17,43 +17,45 @@ const _myHeroes = axios.create({
 class HeroesService {
   constructor() {
     this.getWildHeroes()
-    this.getMyHeroes()
-    this.getHeroesInfo()
+    // this.getMyHeroes()
   }
 
   releaseHero(heroId) {
-    _myHeroes.delete("" + heroId).then(res => {
-      console.log(res.data);
-      store.commit("myHeroes", store.State.myHeroes.filter(h => h._id != heroId)).catch(err => console.error(err))
-    })
+    _myHeroes.delete(heroId).then((res) => this.getMyHeroes());
   }
+  // {
+  // res => this.getMyHeroes
+  // store.commit("myHeroes", store.State.myHeroes.filter(h => h.id != heroId))
+  // }).catch(err => console.error(err))
+  // }
 
   catchHero() {
-    _myHeroes.post("", _store.State.activeHero).then(res => {
+    _myHeroes.post("", _store.State.activeHeroes).then(res => {
       console.log(res.data);
       this.getMyHeroes()
     }).catch(err => console.error(err))
   }
-  getWildHeroes() {
+  getWildHeroes(name) {
     // @ts-ignore
     _wildHeroes.get().then(res => {
-      _store.commit("wildHeroes", res.data.data.results.map(rawHeroesData => rawHeroesData.name))
+      _store.commit("wildHeroes", res.data.data.results.map(rawHeroesData => new Hero(rawHeroesData)))
+      console.log(_store.State)
     }).catch(err => console.error(err))
   }
 
   getHeroesInfo(name) {
     // @ts-ignore
-    _wildHeroes.get().then(res => {
-      let heroInfo = res.data.data.results.find(h => h.name == name)
-      _store.commit("activeHeroes", new Hero(heroInfo))
 
-    }).catch(err => console.error(err))
+    let heroInfo = _store.State.wildHeroes.find(h => h.name == name)
+    _store.commit("activeHeroes", heroInfo)
+
   }
 
   getMyHeroes() {
     // @ts-ignore
-    _myHeroes.get().then(res => {
-      store.commit("myHeroes", res.data.data.results.map(rawHeroesData => new Hero(rawHeroesData)))
+    _myHeroes.get("").then(res => {
+      store.commit("myHeroes", res.data.data.map(rawHeroesData => new Hero(rawHeroesData)))
+      console.log(store.State)
     }).catch(err => console.error(err))
   }
 }

@@ -6,7 +6,7 @@ import _store from "../store.js";
 //Private
 function _drawWild() {
   let template = ""
-  _store.State.wildHeroes.forEach(heroName => template += Hero.generateWildHeroTemplate(heroName))
+  _store.State.wildHeroes.forEach(hero => template += hero.buttonTemplate)
   document.getElementById("wild-heroes").innerHTML = template
 }
 
@@ -28,7 +28,7 @@ export default class HeroesController {
     _store.subscribe("myHeroes", _drawMyHero);
   }
   getHeroesInfo(name) {
-    _heroesService.getWildHeroes(name)
+    _heroesService.getHeroesInfo(name)
   }
 
   catchHero() {

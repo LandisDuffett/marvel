@@ -1,9 +1,9 @@
 export default class Hero {
     constructor(data) {
-        this.id = data.id
+        this.id = data._id || data.id
         this.name = data.name
-        this.img = data.img
-        this.description = data.description
+        this.img = data.img || data.thumbnail.path + "." + data.thumbnail.extension
+        this.description = data.description || "no description available"
         this.user = data.user
     }
 
@@ -11,14 +11,18 @@ export default class Hero {
         let template = /*html*/ `
         <div class="border border-dark rounded shadow text-center mt-3">
             <h3 class="text-capitalize">${this.name}</h3>
-            <img src="${this.img}" alt="">
+            <img class="img-fluid" src="${this.img}" alt="">
             <h3>Description: ${this.description}</h3>
-            <h5>User: ${this.user}</h5>
+            <div ${this.user ? '' : 'hidden'}>
+            <h5 >User: ${this.user}</h5>
+            <button class="btn btn-primary rounded shadow" onclick="app.heroesController.releaseHero('${this.id}')">release</button>
+            </div>
+            <button ${!this.user ? '' : 'hidden'} class="btn btn-primary rounded shadow" onclick="app.heroesController.catchHero()">catch</button></div>
             `
         return template
     }
 
-    static generateWildHeroTemplate(name) {
-        return `<button class="btn btn-info btn-block btn-lg" onclick="app.heroesController.getHeroesInfo('${name}')">${name}</button>`
+    get buttonTemplate() {
+        return `<button class="btn btn-info btn-block btn-lg" onclick="app.heroesController.getHeroesInfo('${this.name}')">${this.name}</button>`
     }
 }
