@@ -54,7 +54,7 @@ class HeroesService {
   getMyHeroes() {
     // @ts-ignore
     _myHeroes.get("").then(res => {
-      store.commit("myHeroes", res.data.map(rawHeroesData => new Hero(rawHeroesData)))
+      store.commit("myHeroes", res.data.data.map(rawHeroesData => new Hero(rawHeroesData)))
       console.log(store.State)
     }).catch(err => console.error(err))
   }
