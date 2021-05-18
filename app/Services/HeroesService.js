@@ -5,7 +5,7 @@ import Hero from "../Models/Hero.js"
 
 // @ts-ignore
 const _wildHeroes = axios.create({
-  baseURL: "https://gateway.marvel.com/v1/public/characters?apikey=2148bbf76c5acd7c1b486d33517c8d71&limit=100",
+  baseURL: "https://gateway.marvel.com/v1/public/characters?apikey=3559397655c8c3670d70139682d52ca8&limit=100",
   timeout: 3000
 })
 
